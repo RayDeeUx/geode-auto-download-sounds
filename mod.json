@@ -8,9 +8,33 @@
 	},
 	"id": "treehousefalcon.auto-download-sounds",
 	"name": "Auto Download Sounds",
-	"version": "v0.1.0",
 	"developer": "TreehouseFalcon",
-	"description": "Automatically downloads sound assets when you open a level's information page!",
+	"version": "v0.1.0",
+	"description": "Automatically downloads sound assets for you",
+	"tags": [
+		"online",
+		"enhancement",
+		"music",
+		"utility"
+	],
+	"links": {
+		"source": "https://github.com/cdc-sys/level-thumbs-mod"
+	},
+	"issues": {
+		"info": "Report issues via GitHub Issues",
+		"url": "https://github.com/TreehouseFalcon/geode-auto-download-sounds/issues"
+	},
+	"settings": {
+		"download-sounds-when": {
+			"name": "Download sounds when",
+			"type": "string",
+			"one-of": [
+				"Level played",
+				"Level viewed"
+			],
+			"default": "Level played"
+		}
+	},
 	"dependencies": {
 		"geode.node-ids": ">=v1.20.0"
 	}
