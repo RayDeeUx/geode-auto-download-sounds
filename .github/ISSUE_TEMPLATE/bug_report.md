@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Report a defect with the mod
-title: ''
+title: "[BUG]"
 labels: bug
 assignees: ''
 
