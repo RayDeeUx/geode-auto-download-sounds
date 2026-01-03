@@ -10,6 +10,7 @@ class $modify(AutoDownloadCustomSongWidget, CustomSongWidget) {
 public:
     struct Fields {
         bool m_startedAutoDownload = false;
+        bool m_loadingPopupShown = false;
     };
 
     bool init(

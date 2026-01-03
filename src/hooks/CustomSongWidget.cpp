@@ -1,6 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/binding/CustomSongDelegate.hpp>
 #include <Geode/binding/CustomSongWidget.hpp>
+#include <Geode/binding/FLAlertLayer.hpp>
 #include <Geode/modify/CustomSongWidget.hpp>
 #include <Geode/binding/SongInfoObject.hpp>
 #include <Geode/modify/MenuLayer.hpp>
@@ -50,24 +51,26 @@ void AutoDownloadCustomSongWidget::tryPlayIfInLevelInfo() {
 	auto director = cocos2d::CCDirector::sharedDirector();
 	auto scene = director->getRunningScene();
 	if (!scene) return;
+	if (!m_fields->m_loadingPopupShown) return;
 
 	bool loadingPopupShown = false;
 	for (auto node : CCArrayExt<cocos2d::CCNode*>(scene->getChildren())) {
 		if (auto alert = typeinfo_cast<FLAlertLayer*>(node)) {
 			loadingPopupShown = true;
+			m_fields->m_loadingPopupShown = false;
 			alert->keyBackClicked();
-			break;
-		}
-	}
-	if (!loadingPopupShown) return;
 
-	CCNode* node = this;
-	while (node) {
-		if (auto levelInfo = typeinfo_cast<LevelInfoLayer*>(node)) {
-			levelInfo->onPlay(nullptr);
-			break;
+			CCNode* node = this;
+			while (node) {
+				if (auto levelInfo = typeinfo_cast<LevelInfoLayer*>(node)) {
+					levelInfo->onPlay(nullptr);
+					break;
+				}
+				node = node->getParent();
+			}
+
+			return;
 		}
-		node = node->getParent();
 	}
 }
 

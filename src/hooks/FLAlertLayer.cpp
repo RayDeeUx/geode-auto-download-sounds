@@ -1,6 +1,7 @@
 #include <Geode/binding/LevelInfoLayer.hpp>
 #include <Geode/modify/FLAlertLayer.hpp>
 #include <Geode/binding/FLAlertLayer.hpp>
+#include "CustomSongWidget.hpp"
 
 using namespace geode::prelude;
 
@@ -11,6 +12,23 @@ class $modify(NoSongAlertOverride, FLAlertLayer) {
             if (auto layer = typeinfo_cast<LevelInfoLayer*>(n)) return layer;
 
         return nullptr;
+    }
+
+    static LevelInfoLayer* findLevelInfoLayer() {
+        auto scene = CCDirector::sharedDirector()->getRunningScene();
+        if (scene) {
+            return findLevelInfoLayerShallow(scene);
+        }
+        return nullptr;
+    }
+
+    static void trySetLoadingPopupShown(bool shown) {
+        auto* levelInfo = findLevelInfoLayer();
+        if (!levelInfo) return;
+
+        if (auto* customSongWidget = static_cast<AutoDownloadCustomSongWidget*>(levelInfo->m_songWidget)) {
+            customSongWidget->m_fields->m_loadingPopupShown = shown;
+        }
     }
 
     static FLAlertLayer* create(
@@ -24,8 +42,7 @@ class $modify(NoSongAlertOverride, FLAlertLayer) {
         float height,
         float textScale
     ) {
-        auto isAudioWarning = title && std::string_view(title) == "No Song";
-        if (isAudioWarning) {
+        if (title && std::string_view(title) == "No Song") {
             auto scene = CCDirector::sharedDirector()->getRunningScene();
             if (scene) {
                 if (auto* levelInfo = findLevelInfoLayerShallow(scene)) {
@@ -34,19 +51,16 @@ class $modify(NoSongAlertOverride, FLAlertLayer) {
                         log::info("error with song shown for level info layer, level id {}", levelInfo->m_level->m_levelID);
                         return FLAlertLayer::create(delegate, title, desc, btn1, btn2, width, scroll, height, textScale);
                     }
+
+                    title = "Downloading Audio";
+                    desc = "Please wait for audio assets to download...\n";
+                    btn1 = "Cancel";
+                    btn2 = "Skip";
+                    trySetLoadingPopupShown(true);
                 }
             }
-
-            title = "Downloading Audio";
-            desc = "Please wait for audio assets to download...\n";
-            btn1 = "Cancel";
-            btn2 = nullptr;
         }
 
         return FLAlertLayer::create(delegate, title, desc, btn1, btn2, width, scroll, height, textScale);
-    }
-
-    void closeWarning() {
-        keyBackClicked();
     }
 };
