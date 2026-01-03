@@ -2,6 +2,7 @@
 
 - Fixed issue with detecting active FLAlertLayer instances on LevelInfoLayer
   - Opening the level leaderboard should not automatically play level anymore
+- Added "Skip" button to downloading popup
 
 ## 0.1.1
 
