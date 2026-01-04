@@ -31,6 +31,16 @@ class $modify(NoSongAlertOverride, FLAlertLayer) {
         }
     }
 
+    void onBtn1(CCObject* sender) {
+        FLAlertLayer::onBtn1(sender);
+        trySetLoadingPopupShown(false);
+    }
+
+    void onBtn2(CCObject* sender) {
+        FLAlertLayer::onBtn2(sender);
+        trySetLoadingPopupShown(false);
+    }
+
     void keyBackClicked() {
         FLAlertLayer::keyBackClicked();
         trySetLoadingPopupShown(false);

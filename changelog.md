@@ -1,13 +1,17 @@
-# 0.1.2
+# v0.1.3
 
-- Fixed issue with detecting active FLAlertLayer instances on LevelInfoLayer
+- Fixes handling of sound download popup when closing
+
+## v0.1.2
+
+- Fixes issue with detecting active FLAlertLayer instances on LevelInfoLayer
   - Opening the level leaderboard should not automatically play level anymore
-- Added "Skip" button to downloading popup
+- Adds "Skip" button to downloading popup
 
-## 0.1.1
+## v0.1.1
 
 it's 4 am and im tired
 
-## 0.1.0
+## v0.1.0
 
 - Initial release
