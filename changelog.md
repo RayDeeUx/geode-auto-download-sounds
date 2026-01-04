@@ -1,4 +1,8 @@
-# v0.1.3
+# v0.1.4
+
+- Adds `support.md` with links to star/sponsor the project
+
+## v0.1.3
 
 - Fixes handling of sound download popup when closing
 
