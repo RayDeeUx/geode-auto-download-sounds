@@ -31,6 +31,11 @@ class $modify(NoSongAlertOverride, FLAlertLayer) {
         }
     }
 
+    void keyBackClicked() {
+        FLAlertLayer::keyBackClicked();
+        trySetLoadingPopupShown(false);
+    }
+
     static FLAlertLayer* create(
         FLAlertLayerProtocol* delegate,
         char const* title,
