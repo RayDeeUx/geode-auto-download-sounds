@@ -125,7 +125,7 @@ void AutoDownloadCustomSongWidget::showError(bool p0) {
 	if (m_errorLabel->getColor().r != 0 || m_errorLabel->getColor().b != 0 || m_errorLabel->getColor().g != 255) return;
 
 	auto undownloadedAssetCount = m_undownloadedAssets.size();
-	if (undownloadedAssetCount == 0 || (undownloadedAssetCount == 1 && m_undownloadedAssets.at(0).m_id == m_songInfoObject.m_songID)) {
+	if (undownloadedAssetCount == 0 || (undownloadedAssetCount == 1 && m_undownloadedAssets.at(0).m_id == m_songInfoObject->m_songID)) {
 		allAudiosDownloaded();
 	}
 }
