@@ -29,6 +29,9 @@ public:
     void downloadSongsOnLevelView();
     void tryPlayIfInLevelInfo();
     void allAudiosDownloaded();
+    /*
     void downloadSongFinished(int id);
     void downloadSFXFinished(int id);
+    */
+    void showError(bool p0);
 };

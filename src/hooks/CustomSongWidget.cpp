@@ -34,20 +34,29 @@ void AutoDownloadCustomSongWidget::loadSongInfoFinished(SongInfoObject* songInfo
 }
 
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelView() {
+	if (!GameManager::get()->getGameVariable("0016")) GameManager::get()->setGameVariable("0016", true);
+	bool orig83 = GameManager::get()->getGameVariable("0083");
+	GameManager::get()->setGameVariable("0083", true);
 	if (!m_fields->m_startedAutoDownload && Settings::shouldDownloadSoundsOnLevelView() && m_downloadBtn && m_downloadBtn->isVisible()) {
 		m_fields->m_startedAutoDownload = true;
 		m_downloadBtn->activate();
 	}
+	GameManager::get()->setGameVariable("0083", orig83);
 }
 
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelPlay() {
+	if (!GameManager::get()->getGameVariable("0016")) GameManager::get()->setGameVariable("0016", true);
+	bool orig83 = GameManager::get()->getGameVariable("0083");
+	GameManager::get()->setGameVariable("0083", true);
 	if (!m_fields->m_startedAutoDownload && Settings::shouldDownloadSoundsOnLevelPlay() && m_downloadBtn && m_downloadBtn->isVisible()) {
 		m_fields->m_startedAutoDownload = true;
 		m_downloadBtn->activate();
 	}
+	GameManager::get()->setGameVariable("0083", orig83);
 }
 
 void AutoDownloadCustomSongWidget::tryPlayIfInLevelInfo() {
+	/*
 	auto director = cocos2d::CCDirector::sharedDirector();
 	auto scene = director->getRunningScene();
 	if (!scene) return;
@@ -72,12 +81,21 @@ void AutoDownloadCustomSongWidget::tryPlayIfInLevelInfo() {
 			return;
 		}
 	}
+	*/
+	auto scene = CCScene::get();
+	if (!scene) return;
+
+	auto levelInfo = scene->getChildByType<LevelInfoLayer>(0);
+	if (!levelInfo) return;
+
+	levelInfo->onPlay(nullptr);
 }
 
 void AutoDownloadCustomSongWidget::allAudiosDownloaded() {
 	tryPlayIfInLevelInfo();
 }
 
+/*
 void AutoDownloadCustomSongWidget::downloadSongFinished(int id) {
 	CustomSongWidget::downloadSongFinished(id);
 
@@ -91,6 +109,22 @@ void AutoDownloadCustomSongWidget::downloadSFXFinished(int id) {
 
 	auto undownloadedAssetCount = m_undownloadedAssets.size();
 	if (undownloadedAssetCount == 0 || (undownloadedAssetCount == 1 && m_undownloadedAssets.at(0).m_id == id)) {
+		allAudiosDownloaded();
+	}
+}
+*/
+
+void AutoDownloadCustomSongWidget::showError(bool p0) {
+	CustomSongWidget::showError(p0);
+
+	auto levelInfoLayer = CCScene::get()->getChildByType<LevelInfoLayer>(0);
+	if (!levelInfoLayer || !levelInfoLayer->m_songWidget || this != levelInfoLayer->m_songWidget) return;
+
+	if (!m_errorLabel->isVisible() || utils::string::toLower(m_errorLabel->getString()) != "download complete.") return;
+	if (m_errorLabel->getColor().r != 0 || m_errorLabel->getColor().b != 0 || m_errorLabel->getColor().g != 255) return;
+
+	auto undownloadedAssetCount = m_undownloadedAssets.size();
+	if (undownloadedAssetCount == 0 || (undownloadedAssetCount == 1 && m_undownloadedAssets.at(0).m_id == m_songInfoObject.m_songID)) {
 		allAudiosDownloaded();
 	}
 }

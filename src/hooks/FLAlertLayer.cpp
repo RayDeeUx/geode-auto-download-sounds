@@ -1,3 +1,4 @@
+/*
 #include <Geode/binding/LevelInfoLayer.hpp>
 #include <Geode/modify/FLAlertLayer.hpp>
 #include <Geode/binding/FLAlertLayer.hpp>
@@ -79,3 +80,4 @@ class $modify(NoSongAlertOverride, FLAlertLayer) {
         return FLAlertLayer::create(delegate, title, desc, btn1, btn2, width, scroll, height, textScale);
     }
 };
+*/
