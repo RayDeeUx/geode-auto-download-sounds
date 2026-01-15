@@ -92,6 +92,7 @@ void AutoDownloadCustomSongWidget::tryPlayIfInLevelInfo() {
 }
 
 void AutoDownloadCustomSongWidget::allAudiosDownloaded() {
+	if (!Settings::shouldAutoPlayOnDownloadFinish()) return;
 	tryPlayIfInLevelInfo();
 }
 

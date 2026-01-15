@@ -30,9 +30,15 @@
 			"type": "string",
 			"one-of": [
 				"Level played",
-				"Level viewed"
+				"Level viewed",
+				"Never (Disabled)"
 			],
 			"default": "Level played"
+		},
+		"play-when-download-finished": {
+			"name": "Play level when sounds finish downloading",
+			"type": "bool",
+			"default": true
 		}
 	},
 	"dependencies": {
