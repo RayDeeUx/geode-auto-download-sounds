@@ -8,6 +8,7 @@
 #include <Geode/binding/MusicDownloadManager.hpp>
 #include "../managers/SettingsManager.hpp"
 #include "CustomSongWidget.hpp"
+#include "../constants/SettingsAliases.hpp"
 
 using namespace geode::prelude;
 
@@ -26,6 +27,13 @@ bool AutoDownloadCustomSongWidget::init(SongInfoObject* songInfo, CustomSongDele
 	return true;
 }
 
+// Prevents Newgrounds policy crash (@RayDeeUx) //
+void AutoDownloadCustomSongWidget::forceAcceptNewgroundsPolicy() {
+	if (!GameManager::get()->getGameVariable(SETTING_NEWGROUNDS_POLICY_ACCEPTED)) {
+		GameManager::get()->setGameVariable(SETTING_NEWGROUNDS_POLICY_ACCEPTED, true);
+	}
+}
+
 void AutoDownloadCustomSongWidget::loadSongInfoFinished(SongInfoObject* songInfo) {
 	CustomSongWidget::loadSongInfoFinished(songInfo);
 
@@ -34,54 +42,24 @@ void AutoDownloadCustomSongWidget::loadSongInfoFinished(SongInfoObject* songInfo
 }
 
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelView() {
-	if (!GameManager::get()->getGameVariable("0016")) GameManager::get()->setGameVariable("0016", true);
-	bool orig83 = GameManager::get()->getGameVariable("0083");
-	GameManager::get()->setGameVariable("0083", true);
+	forceAcceptNewgroundsPolicy();
+
 	if (!m_fields->m_startedAutoDownload && Settings::shouldDownloadSoundsOnLevelView() && m_downloadBtn && m_downloadBtn->isVisible()) {
 		m_fields->m_startedAutoDownload = true;
 		m_downloadBtn->activate();
 	}
-	GameManager::get()->setGameVariable("0083", orig83);
 }
 
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelPlay() {
-	if (!GameManager::get()->getGameVariable("0016")) GameManager::get()->setGameVariable("0016", true);
-	bool orig83 = GameManager::get()->getGameVariable("0083");
-	GameManager::get()->setGameVariable("0083", true);
+	forceAcceptNewgroundsPolicy();
+
 	if (!m_fields->m_startedAutoDownload && Settings::shouldDownloadSoundsOnLevelPlay() && m_downloadBtn && m_downloadBtn->isVisible()) {
 		m_fields->m_startedAutoDownload = true;
 		m_downloadBtn->activate();
 	}
-	GameManager::get()->setGameVariable("0083", orig83);
 }
 
 void AutoDownloadCustomSongWidget::tryPlayIfInLevelInfo() {
-	/*
-	auto director = cocos2d::CCDirector::sharedDirector();
-	auto scene = director->getRunningScene();
-	if (!scene) return;
-	if (!m_fields->m_loadingPopupShown) return;
-
-	bool loadingPopupShown = false;
-	for (auto node : CCArrayExt<cocos2d::CCNode*>(scene->getChildren())) {
-		if (auto alert = typeinfo_cast<FLAlertLayer*>(node)) {
-			loadingPopupShown = true;
-			m_fields->m_loadingPopupShown = false;
-			alert->keyBackClicked();
-
-			CCNode* node = this;
-			while (node) {
-				if (auto levelInfo = typeinfo_cast<LevelInfoLayer*>(node)) {
-					levelInfo->onPlay(nullptr);
-					break;
-				}
-				node = node->getParent();
-			}
-
-			return;
-		}
-	}
-	*/
 	auto scene = CCScene::get();
 	if (!scene) return;
 
@@ -95,25 +73,6 @@ void AutoDownloadCustomSongWidget::allAudiosDownloaded() {
 	if (!Settings::shouldAutoPlayOnDownloadFinish()) return;
 	tryPlayIfInLevelInfo();
 }
-
-/*
-void AutoDownloadCustomSongWidget::downloadSongFinished(int id) {
-	CustomSongWidget::downloadSongFinished(id);
-
-	auto undownloadedAssetCount = m_undownloadedAssets.size();
-	if (undownloadedAssetCount == 0 || (undownloadedAssetCount == 1 && m_undownloadedAssets.at(0).m_id == id)) {
-		allAudiosDownloaded();
-	}
-}
-void AutoDownloadCustomSongWidget::downloadSFXFinished(int id) {
-	CustomSongWidget::downloadSFXFinished(id);
-
-	auto undownloadedAssetCount = m_undownloadedAssets.size();
-	if (undownloadedAssetCount == 0 || (undownloadedAssetCount == 1 && m_undownloadedAssets.at(0).m_id == id)) {
-		allAudiosDownloaded();
-	}
-}
-*/
 
 void AutoDownloadCustomSongWidget::showError(bool p0) {
 	CustomSongWidget::showError(p0);
