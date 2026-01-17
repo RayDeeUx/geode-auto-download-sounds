@@ -3,6 +3,7 @@
 #include <Geode/modify/CustomSongWidget.hpp>
 #include <Geode/binding/SongInfoObject.hpp>
 #include <Geode/binding/CustomSongDelegate.hpp>
+#include "AutoDownloadLevelInfoLayer.hpp"
 
 using namespace geode::prelude;
 
@@ -31,4 +32,5 @@ public:
     void allAudiosDownloaded();
     void showError(bool p0);
     void forceAcceptNewgroundsPolicy();
+    AutoDownloadLevelInfoLayer* getAutoDownloadLevelInfoLayer();
 };

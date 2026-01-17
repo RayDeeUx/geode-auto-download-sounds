@@ -7,8 +7,9 @@
 #include <Geode/modify/MenuLayer.hpp>
 #include <Geode/binding/MusicDownloadManager.hpp>
 #include "../managers/SettingsManager.hpp"
-#include "CustomSongWidget.hpp"
+#include "AutoDownloadCustomSongWidget.hpp"
 #include "../constants/SettingsAliases.hpp"
+#include "AutoDownloadLevelInfoLayer.hpp"
 
 using namespace geode::prelude;
 
@@ -41,19 +42,38 @@ void AutoDownloadCustomSongWidget::loadSongInfoFinished(SongInfoObject* songInfo
 	downloadSongsOnLevelView();
 }
 
+AutoDownloadLevelInfoLayer* AutoDownloadCustomSongWidget::getAutoDownloadLevelInfoLayer() {
+	auto scene = cocos2d::CCDirector::sharedDirector()->getRunningScene();
+	if (!scene) return nullptr;
+
+	auto* base = scene->getChildByType<LevelInfoLayer>(0);
+	if (!base) return nullptr;
+
+	return static_cast<AutoDownloadLevelInfoLayer*>(base);
+}
+
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelView() {
+	if (!Settings::shouldDownloadSoundsOnLevelView()) return;
+
 	forceAcceptNewgroundsPolicy();
 
-	if (!m_fields->m_startedAutoDownload && Settings::shouldDownloadSoundsOnLevelView() && m_downloadBtn && m_downloadBtn->isVisible()) {
+	if (!m_fields->m_startedAutoDownload && m_downloadBtn && m_downloadBtn->isVisible()) {
 		m_fields->m_startedAutoDownload = true;
 		m_downloadBtn->activate();
 	}
 }
 
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelPlay() {
-	forceAcceptNewgroundsPolicy();
+	bool downloadButtonVisible = m_downloadBtn && m_downloadBtn->isVisible();
+	auto autoDownloadLevelInfoLayer = getAutoDownloadLevelInfoLayer();
+	if ((downloadButtonVisible || m_fields->m_startedAutoDownload) && autoDownloadLevelInfoLayer) {
+		autoDownloadLevelInfoLayer->showDownloadingPopup();
+	}
 
-	if (!m_fields->m_startedAutoDownload && Settings::shouldDownloadSoundsOnLevelPlay() && m_downloadBtn && m_downloadBtn->isVisible()) {
+	if (!Settings::shouldDownloadSoundsOnLevelPlay()) return;
+
+	if (!m_fields->m_startedAutoDownload && downloadButtonVisible) {
+		forceAcceptNewgroundsPolicy();
 		m_fields->m_startedAutoDownload = true;
 		m_downloadBtn->activate();
 	}
@@ -70,8 +90,16 @@ void AutoDownloadCustomSongWidget::tryPlayIfInLevelInfo() {
 }
 
 void AutoDownloadCustomSongWidget::allAudiosDownloaded() {
-	if (!Settings::shouldAutoPlayOnDownloadFinish()) return;
-	tryPlayIfInLevelInfo();
+	auto scene = cocos2d::CCDirector::sharedDirector()->getRunningScene();
+	if (!scene) return;
+
+	if (auto* base = scene->getChildByType<LevelInfoLayer>(0)) {
+		static_cast<AutoDownloadLevelInfoLayer*>(base)->closeDownloadingPopup();
+	}
+
+	if (Settings::shouldAutoPlayOnDownloadFinish()) {
+		tryPlayIfInLevelInfo();
+	}
 }
 
 void AutoDownloadCustomSongWidget::showError(bool p0) {
