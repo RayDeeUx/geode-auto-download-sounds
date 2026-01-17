@@ -1,4 +1,6 @@
+#include <Geode/Enums.hpp>
 #include <Geode/Geode.hpp>
+#include <Geode/Bindings.hpp>
 #include <Geode/binding/CustomSongDelegate.hpp>
 #include <Geode/binding/CustomSongWidget.hpp>
 #include <Geode/binding/FLAlertLayer.hpp>
@@ -8,7 +10,6 @@
 #include <Geode/binding/MusicDownloadManager.hpp>
 #include "../managers/SettingsManager.hpp"
 #include "AutoDownloadCustomSongWidget.hpp"
-#include "../constants/SettingsAliases.hpp"
 #include "AutoDownloadLevelInfoLayer.hpp"
 
 using namespace geode::prelude;
@@ -30,8 +31,8 @@ bool AutoDownloadCustomSongWidget::init(SongInfoObject* songInfo, CustomSongDele
 
 // Prevents Newgrounds policy crash (@RayDeeUx) //
 void AutoDownloadCustomSongWidget::forceAcceptNewgroundsPolicy() {
-	if (!GameManager::get()->getGameVariable(SETTING_NEWGROUNDS_POLICY_ACCEPTED)) {
-		GameManager::get()->setGameVariable(SETTING_NEWGROUNDS_POLICY_ACCEPTED, true);
+	if (!GameManager::get()->getGameVariable(GameVar::ShownNewgroundsDisclaimer)) {
+		GameManager::get()->setGameVariable(GameVar::ShownNewgroundsDisclaimer, true);
 	}
 }
 

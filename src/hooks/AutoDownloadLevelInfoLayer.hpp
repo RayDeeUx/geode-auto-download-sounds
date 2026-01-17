@@ -7,7 +7,7 @@ using namespace geode::prelude;
 
 class $modify(AutoDownloadLevelInfoLayer, LevelInfoLayer) {
     struct Fields {
-        FLAlertLayer* downloadingPopup = nullptr;
+        Ref<FLAlertLayer> downloadingPopup = nullptr;
     };
 
     void onPlay(CCObject* sender);
