@@ -31,7 +31,7 @@ bool AutoDownloadCustomSongWidget::init(SongInfoObject* songInfo, CustomSongDele
 
 // Prevents Newgrounds policy crash (@RayDeeUx) //
 void AutoDownloadCustomSongWidget::forceAcceptNewgroundsPolicy() {
-	if (!GameManager::get()->getGameVariable(GameVar::ShownNewgroundsDisclaimer)) {
+	if (Settings::shouldAutoAcceptNewgroundsPolicy() && !GameManager::get()->getGameVariable(GameVar::ShownNewgroundsDisclaimer)) {
 		GameManager::get()->setGameVariable(GameVar::ShownNewgroundsDisclaimer, true);
 	}
 }
@@ -71,7 +71,7 @@ void AutoDownloadCustomSongWidget::downloadSongsOnLevelPlay() {
 		autoDownloadLevelInfoLayer->showDownloadingPopup();
 	}
 
-	if (!Settings::shouldDownloadSoundsOnLevelPlay()) return;
+	if (!(Settings::shouldDownloadSoundsOnLevelPlay() || Settings::shouldDownloadSoundsOnLevelView())) return;
 
 	if (!m_fields->m_startedAutoDownload && downloadButtonVisible) {
 		forceAcceptNewgroundsPolicy();

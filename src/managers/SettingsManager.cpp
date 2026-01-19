@@ -18,6 +18,14 @@ bool Settings::autoPlayOnDownloadFinish() {
     return value;
 }
 
+bool Settings::autoAcceptNewgroundsPolicy() {
+    static bool value = (
+        listenForSettingChanges<bool>("auto-accept-newgrounds-policy",[](bool val) { value = std::move(val); }),
+        getMod()->getSettingValue<bool>("auto-accept-newgrounds-policy")
+    );
+    return value;
+}
+
 bool Settings::shouldDownloadSoundsOnLevelPlay() {
     return Settings::downloadSoundsWhen() == "Level played";
 }
@@ -31,5 +39,9 @@ bool Settings::shouldDownloadSoundsNever() {
 }
 
 bool Settings::shouldAutoPlayOnDownloadFinish() {
+    return Settings::autoPlayOnDownloadFinish();
+}
+
+bool Settings::shouldAutoAcceptNewgroundsPolicy() {
     return Settings::autoPlayOnDownloadFinish();
 }
