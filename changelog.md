@@ -4,10 +4,10 @@ This version includes a major refactor to how popups are handled, improving code
 
 Changes by @RayDeeUx (#1):
 
-- Remove FLAlertLayer hooks
-- Use CustomSongWidget::showError() hook for detecting asset download completion
-- Add soft-toggle for auto-downloading assets
-- Turn "automatically play on download completion" into a togglable setting
+- Removes `FLAlertLayer` hooks
+- Uses `CustomSongWidget::showError()` hook for detecting asset download completion
+- Adds soft-toggle for auto-downloading assets
+- Turns "automatically play on download completion" into a togglable setting
 - Supports auto-accepting Newgrounds song usage policy to prevent crashes for first-time players
 
 More changes and improvements:
@@ -27,7 +27,7 @@ More changes and improvements:
 ## v0.1.2
 
 - Fixes issue with detecting active FLAlertLayer instances on LevelInfoLayer
-  - Opening the level leaderboard should not automatically play level anymore
+- Opening the level leaderboard should not automatically play level anymore
 - Adds "Skip" button to downloading popup
 
 ## v0.1.1
