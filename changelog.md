@@ -12,7 +12,7 @@ Changes by @RayDeeUx (#1):
 
 More changes and improvements:
 
-- Uses `geode::createQuickPopup` instead of manually creating `FLAlertLayer`s
+- Uses `geode::createQuickPopup` instead of manually creating `FLAlertLayers`
 - Uses `GameVar` for settings aliases
 - Adds new setting to control auto-acceptance of Newgrounds song usage policy
 
