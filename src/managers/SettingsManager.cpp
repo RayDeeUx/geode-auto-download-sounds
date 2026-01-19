@@ -26,6 +26,10 @@ bool Settings::shouldDownloadSoundsOnLevelView() {
     return Settings::downloadSoundsWhen() == "Level viewed";
 }
 
+bool Settings::shouldDownloadSoundsNever() {
+    return Settings::downloadSoundsWhen() == "Never (disabled)";
+}
+
 bool Settings::shouldAutoPlayOnDownloadFinish() {
     return Settings::autoPlayOnDownloadFinish();
 }

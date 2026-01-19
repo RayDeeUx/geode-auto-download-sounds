@@ -2,6 +2,7 @@
 #include "AutoDownloadCustomSongWidget.hpp"
 #include <Geode/Bindings.hpp>
 #include <Geode/Enums.hpp>
+#include "../managers/SettingsManager.hpp"
 
 void AutoDownloadLevelInfoLayer::showDownloadingPopup() {
     if (m_fields->downloadingPopup != nullptr) closeDownloadingPopup();
@@ -12,6 +13,7 @@ void AutoDownloadLevelInfoLayer::showDownloadingPopup() {
         "Back", "Skip",
         [this](auto, bool shouldSkip) {
             if (shouldSkip) {
+                m_fields->skipTriggered = true;
                 bool disableSongAlertState = GameManager::get()->getGameVariable(GameVar::DisableSongAlert);
                 if (!disableSongAlertState) {
                     GameManager::get()->setGameVariable(GameVar::DisableSongAlert, true);
@@ -22,11 +24,11 @@ void AutoDownloadLevelInfoLayer::showDownloadingPopup() {
         },
         true, true
     );
+
     m_fields->downloadingPopup = popup;
 }
 
 void AutoDownloadLevelInfoLayer::closeDownloadingPopup() {
-    log::info("closing");
     auto downloadingPopup = m_fields->downloadingPopup;
     if (downloadingPopup != nullptr) {
         downloadingPopup->removeFromParentAndCleanup(true);
@@ -34,27 +36,38 @@ void AutoDownloadLevelInfoLayer::closeDownloadingPopup() {
     }
 }
 
+void AutoDownloadLevelInfoLayer::tryPlayIfDownloadingPopupShown() {
+    bool downloadingPopupShown = m_fields->downloadingPopup && m_fields->downloadingPopup->isRunning();
+    if (downloadingPopupShown) {
+        onPlay(nullptr);
+    }
+}
+
 void AutoDownloadLevelInfoLayer::onPlay(cocos2d::CCObject* sender) {
-    LevelInfoLayer::onPlay(sender);
+    // Disable onPlay behavior if settings don't permit //
+    if (Settings::shouldDownloadSoundsNever()) {
+        LevelInfoLayer::onPlay(sender);
+        return;
+    }
+
+    bool disableSongAlertState = GameManager::get()->getGameVariable(GameVar::DisableSongAlert);
 
     auto scene = cocos2d::CCDirector::sharedDirector()->getRunningScene();
     if (!scene) return;
 
-    // Close the song alert popup //
-    if (!GameManager::get()->getGameVariable(GameVar::DisableSongAlert)) {
-        for (auto child : scene->getChildrenExt()) {
-            if (auto alert = typeinfo_cast<FLAlertLayer*>(child)) {
-                alert->removeFromParentAndCleanup(true);
-            }
-        }
-    }
+    CustomSongWidget* songWidget = this->m_songWidget;
+    AutoDownloadCustomSongWidget* autoWidget = nullptr;
+    if (!songWidget) return;
+    autoWidget = static_cast<AutoDownloadCustomSongWidget*>(songWidget);
+    if (!autoWidget) return;
+
+    bool songWidgetReady = songWidget->m_deleteBtn && songWidget->m_deleteBtn->isVisible();
+    bool shouldEnterLevel = songWidgetReady || m_fields->skipTriggered;
+    GameManager::get()->setGameVariable(GameVar::DisableSongAlert, true);
+    if (shouldEnterLevel) LevelInfoLayer::onPlay(sender);
+    GameManager::get()->setGameVariable(GameVar::DisableSongAlert, disableSongAlertState);
+    if (shouldEnterLevel) return;
 
     // Trigger download on level play //
-    auto* songWidget = this->m_songWidget;
-    if (songWidget) {
-        auto* autoWidget = static_cast<AutoDownloadCustomSongWidget*>(songWidget);
-        if (autoWidget) {
-            autoWidget->downloadSongsOnLevelPlay();
-        }
-    }
+    autoWidget->downloadSongsOnLevelPlay();
 }

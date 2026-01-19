@@ -84,23 +84,32 @@ void AutoDownloadCustomSongWidget::tryPlayIfInLevelInfo() {
 	auto scene = CCScene::get();
 	if (!scene) return;
 
-	auto levelInfo = scene->getChildByType<LevelInfoLayer>(0);
+	LevelInfoLayer* levelInfo = scene->getChildByType<LevelInfoLayer>(0);
 	if (!levelInfo) return;
 
-	levelInfo->onPlay(nullptr);
+	AutoDownloadLevelInfoLayer* autoLayer = static_cast<AutoDownloadLevelInfoLayer*>(levelInfo);
+	if (!autoLayer) return;
+
+	autoLayer->tryPlayIfDownloadingPopupShown();
 }
 
 void AutoDownloadCustomSongWidget::allAudiosDownloaded() {
 	auto scene = cocos2d::CCDirector::sharedDirector()->getRunningScene();
 	if (!scene) return;
 
+	m_deleteBtn->setVisible(true);
+
+	AutoDownloadLevelInfoLayer* autoLayer;
 	if (auto* base = scene->getChildByType<LevelInfoLayer>(0)) {
-		static_cast<AutoDownloadLevelInfoLayer*>(base)->closeDownloadingPopup();
+		autoLayer = static_cast<AutoDownloadLevelInfoLayer*>(base);
+		if (!autoLayer) return;
 	}
 
 	if (Settings::shouldAutoPlayOnDownloadFinish()) {
 		tryPlayIfInLevelInfo();
 	}
+
+	autoLayer->closeDownloadingPopup();
 }
 
 void AutoDownloadCustomSongWidget::showError(bool p0) {

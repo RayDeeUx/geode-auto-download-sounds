@@ -7,5 +7,6 @@ class Settings {
     public:
         static bool shouldDownloadSoundsOnLevelView();
         static bool shouldDownloadSoundsOnLevelPlay();
+        static bool shouldDownloadSoundsNever();
         static bool shouldAutoPlayOnDownloadFinish();
 };

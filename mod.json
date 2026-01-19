@@ -9,7 +9,7 @@
 	"id": "treehousefalcon.auto-download-sounds",
 	"name": "Auto Download Sounds",
 	"developer": "TreehouseFalcon",
-	"version": "v0.1.4",
+	"version": "v0.2.0",
 	"description": "Automatically downloads sound assets for you",
 	"tags": [
 		"online",
@@ -27,16 +27,24 @@
 	"settings": {
 		"download-sounds-when": {
 			"name": "Download sounds when",
+			"description": "When should level sounds be downloaded?",
 			"type": "string",
 			"one-of": [
 				"Level played",
 				"Level viewed",
-				"Never (Disabled)"
+				"Never (disabled)"
 			],
 			"default": "Level played"
 		},
 		"play-when-download-finished": {
 			"name": "Play level after sounds download",
+			"description": "Should the game wait until sounds download to <cg>start</c> the level?\n<cy>You must click play for this to happen.</c>",
+			"type": "bool",
+			"default": true
+		},
+		"auto-accept-newgrounds-policy": {
+			"name": "Auto accept Newgrounds policy",
+			"description": "Automatically accept the <cj>Newgrounds</c> song usage terms of service. <cy>If you would like to review these terms first, leave this disabled.</c>",
 			"type": "bool",
 			"default": true
 		}

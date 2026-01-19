@@ -8,9 +8,11 @@ using namespace geode::prelude;
 class $modify(AutoDownloadLevelInfoLayer, LevelInfoLayer) {
     struct Fields {
         Ref<FLAlertLayer> downloadingPopup = nullptr;
+        bool skipTriggered = false;
     };
 
     void onPlay(CCObject* sender);
     void showDownloadingPopup();
     void closeDownloadingPopup();
+    void tryPlayIfDownloadingPopupShown();
 };
