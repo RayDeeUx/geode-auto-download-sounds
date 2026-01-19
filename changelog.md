@@ -1,4 +1,22 @@
-# v0.1.4
+# v0.2.0
+
+This version includes a major refactor to how popups are handled, improving code organization, overall stability and compatibility with other mods.
+
+Changes by @RayDeeUx (#1):
+
+- Remove FLAlertLayer hooks
+- Use CustomSongWidget::showError() hook for detecting asset download completion
+- Add soft-toggle for auto-downloading assets
+- Turn "automatically play on download completion" into a togglable setting
+- Supports auto-accepting Newgrounds song usage policy to prevent crashes for first-time players
+
+More changes and improvements:
+
+- Uses `geode::createQuickPopup` instead of manually creating `FLAlertLayer`s
+- Uses `GameVar` for settings aliases
+- Adds new setting to control auto-acceptance of Newgrounds song usage policy
+
+## v0.1.4
 
 - Adds `support.md` with links to star/sponsor the project
 
