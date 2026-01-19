@@ -2,7 +2,7 @@
 
 This version includes a major refactor to how popups are handled, improving code organization, overall stability and compatibility with other mods.
 
-Changes by @RayDeeUx (#1):
+Changes by [@RayDeeUx](https://github.com/RayDeeUx) ([#1](https://github.com/TreehouseFalcon/geode-auto-download-sounds/pull/1)):
 
 - Removes `FLAlertLayer` hooks
 - Uses `CustomSongWidget::showError()` hook for detecting asset download completion
