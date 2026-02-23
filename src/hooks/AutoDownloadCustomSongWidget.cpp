@@ -55,7 +55,7 @@ AutoDownloadLevelInfoLayer* AutoDownloadCustomSongWidget::getAutoDownloadLevelIn
 
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelView() {
 	if (!Settings::shouldDownloadSoundsOnLevelView()) return;
-	if (!Settings::shouldAutoAcceptNewgroundsPolicy() && !GameManager::get()->getGameVariable(GameVar::ShownNewgroundsDisclaimer)) return;
+	if (!GameManager::get()->getGameVariable(GameVar::ShownNewgroundsDisclaimer)) return;
 
 	forceAcceptNewgroundsPolicy();
 
@@ -66,7 +66,7 @@ void AutoDownloadCustomSongWidget::downloadSongsOnLevelView() {
 }
 
 void AutoDownloadCustomSongWidget::downloadSongsOnLevelPlay() {
-	if (!Settings::shouldAutoAcceptNewgroundsPolicy() && !GameManager::get()->getGameVariable(GameVar::ShownNewgroundsDisclaimer)) return;
+	if (!GameManager::get()->getGameVariable(GameVar::ShownNewgroundsDisclaimer)) return;
 	bool downloadButtonVisible = m_downloadBtn && m_downloadBtn->isVisible();
 	auto autoDownloadLevelInfoLayer = getAutoDownloadLevelInfoLayer();
 	if ((downloadButtonVisible || m_fields->m_startedAutoDownload) && autoDownloadLevelInfoLayer) {
