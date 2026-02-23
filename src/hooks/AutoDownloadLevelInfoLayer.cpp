@@ -5,6 +5,7 @@
 #include "../managers/SettingsManager.hpp"
 
 void AutoDownloadLevelInfoLayer::showDownloadingPopup() {
+    if (Settings::shouldDownloadSoundsNever()) return;
     if (m_fields->downloadingPopup != nullptr) closeDownloadingPopup();
 
     auto popup = geode::createQuickPopup(
