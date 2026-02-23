@@ -1,10 +1,10 @@
 {
-	"geode": "4.10.0",
+	"geode": "5.0.0",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
-		"mac": "2.2074",
-		"ios": "2.2074"
+		"win": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081",
+		"android": "2.2081"
 	},
 	"id": "treehousefalcon.auto-download-sounds",
 	"name": "Auto Download Sounds",
@@ -46,7 +46,7 @@
 			"name": "Auto accept Newgrounds policy",
 			"description": "Automatically accept the <cj>Newgrounds</c> song usage terms of service. <cy>If you would like to review these terms first, leave this disabled.</c>",
 			"type": "bool",
-			"default": true
+			"default": false
 		}
 	},
 	"dependencies": {
