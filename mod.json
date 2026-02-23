@@ -46,7 +46,7 @@
 			"name": "Auto accept Newgrounds policy",
 			"description": "Automatically accept the <cj>Newgrounds</c> song usage terms of service. <cy>If you would like to review these terms first, leave this disabled.</c>",
 			"type": "bool",
-			"default": true
+			"default": false
 		}
 	},
 	"dependencies": {
