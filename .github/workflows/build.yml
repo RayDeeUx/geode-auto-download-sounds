@@ -1,6 +1,9 @@
 name: Build Geode Mod (Reusable)
 
 on:
+  push:
+    branches:
+      - "**"
   workflow_call:
     inputs:
       target:
