@@ -9,7 +9,7 @@
 	"id": "treehousefalcon.auto-download-sounds",
 	"name": "Auto Download Sounds",
 	"developer": "TreehouseFalcon",
-	"version": "v0.2.0",
+	"version": "v0.2.1",
 	"description": "Automatically downloads sound assets for you",
 	"tags": [
 		"online",
