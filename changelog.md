@@ -1,10 +1,10 @@
-# v0.2.1
+# v0.2.1 / v0.2.2
 
 - Adds support for GD 2.2081
 - Changes Newgrounds policy auto-accept setting to conform to Geode index rules
 - Updates the release job to build for all platforms
 
-# v0.2.0
+## v0.2.0
 
 This version includes a major refactor to how popups are handled, improving code organization, overall stability and compatibility with other mods.
 
