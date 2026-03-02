@@ -62,7 +62,13 @@ void AutoDownloadLevelInfoLayer::onPlay(cocos2d::CCObject* sender) {
     autoWidget = static_cast<AutoDownloadCustomSongWidget*>(songWidget);
     if (!autoWidget) return;
 
-    bool songWidgetReady = songWidget->m_deleteBtn && songWidget->m_deleteBtn->isVisible();
+    bool songWidgetReady =
+        (songWidget->m_deleteBtn && songWidget->m_deleteBtn->isVisible()) ||
+        !(
+            (songWidget->m_cancelDownloadBtn && songWidget->m_cancelDownloadBtn->isVisible()) ||
+            (songWidget->m_downloadBtn && songWidget->m_downloadBtn->isVisible())
+        );
+
     bool shouldEnterLevel = songWidgetReady || m_fields->skipTriggered;
     GameManager::get()->setGameVariable(GameVar::DisableSongAlert, true);
     if (shouldEnterLevel) LevelInfoLayer::onPlay(sender);

@@ -1,4 +1,8 @@
-# v0.2.1 / v0.2.2
+# v0.2.3
+
+- Fixes bug where entering levels is blocked if there is no delete button when the CustomSongWidget is in a settled state
+
+## v0.2.1 / v0.2.2
 
 - Adds support for GD 2.2081
 - Changes Newgrounds policy auto-accept setting to conform to Geode index rules
