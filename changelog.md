@@ -1,4 +1,4 @@
-# v0.2.3
+# v0.2.3 / 0.2.4
 
 - Fixes bug where entering levels is blocked if there is no delete button when the CustomSongWidget is in a settled state
 
