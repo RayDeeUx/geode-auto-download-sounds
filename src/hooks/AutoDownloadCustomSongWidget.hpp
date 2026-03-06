@@ -31,6 +31,7 @@ public:
     void tryPlayIfInLevelInfo();
     void allAudiosDownloaded();
     void showError(bool p0);
+    void startDownload();
     void forceAcceptNewgroundsPolicy();
     AutoDownloadLevelInfoLayer* getAutoDownloadLevelInfoLayer();
 };

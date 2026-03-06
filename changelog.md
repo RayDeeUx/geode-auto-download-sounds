@@ -1,4 +1,8 @@
-# v0.2.3 / 0.2.4
+# v0.2.5
+
+- Fixes bug where downloading popup would not appear when trying to play after manually starting audio download
+
+## v0.2.3 / 0.2.4
 
 - Fixes bug where entering levels is blocked if there is no delete button when the CustomSongWidget is in a settled state
 

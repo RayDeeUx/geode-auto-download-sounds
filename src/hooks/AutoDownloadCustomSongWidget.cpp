@@ -128,3 +128,8 @@ void AutoDownloadCustomSongWidget::showError(bool p0) {
 		allAudiosDownloaded();
 	}
 }
+
+void AutoDownloadCustomSongWidget::startDownload() {
+	m_fields->m_startedAutoDownload = true;
+	CustomSongWidget::startDownload();
+}
