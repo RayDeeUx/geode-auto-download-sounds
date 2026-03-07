@@ -1,4 +1,8 @@
-# v0.2.5
+# v1.0.0
+
+- First stable release! :aga:
+
+## v0.2.5
 
 - Fixes bug where downloading popup would not appear when trying to play after manually starting audio download
 
