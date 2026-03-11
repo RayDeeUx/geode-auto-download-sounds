@@ -28,6 +28,10 @@ public:
     void loadSongInfoFinished(SongInfoObject* songInfo);
     void downloadSongsOnLevelPlay();
     void downloadSongsOnLevelView();
+    void downloadSongFinished(int id);
+    void downloadSFXFinished(int id);
+    void updateWithMultiAssets(gd::string songList, gd::string sfxList, int bytes);
+    void retriggerDownloadButton();
     void tryPlayIfInLevelInfo();
     void allAudiosDownloaded();
     void showError(bool p0);

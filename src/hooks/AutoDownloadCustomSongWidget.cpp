@@ -40,7 +40,9 @@ void AutoDownloadCustomSongWidget::loadSongInfoFinished(SongInfoObject* songInfo
 	CustomSongWidget::loadSongInfoFinished(songInfo);
 
 	// Download on level view for levels where song info fetching is required //
-	downloadSongsOnLevelView();
+	geode::queueInMainThread([this] {
+		downloadSongsOnLevelView();
+	});
 }
 
 AutoDownloadLevelInfoLayer* AutoDownloadCustomSongWidget::getAutoDownloadLevelInfoLayer() {
@@ -59,9 +61,12 @@ void AutoDownloadCustomSongWidget::downloadSongsOnLevelView() {
 
 	forceAcceptNewgroundsPolicy();
 
-	if (!m_fields->m_startedAutoDownload && m_downloadBtn && m_downloadBtn->isVisible()) {
+	if (!m_fields->m_startedAutoDownload && m_downloadBtn) {
 		m_fields->m_startedAutoDownload = true;
-		m_downloadBtn->activate();
+
+		if (m_downloadBtn->isVisible()) {
+			m_downloadBtn->activate();
+		}
 	}
 }
 
@@ -132,4 +137,25 @@ void AutoDownloadCustomSongWidget::showError(bool p0) {
 void AutoDownloadCustomSongWidget::startDownload() {
 	m_fields->m_startedAutoDownload = true;
 	CustomSongWidget::startDownload();
+}
+
+void AutoDownloadCustomSongWidget::retriggerDownloadButton() {
+	if (m_fields->m_startedAutoDownload && m_downloadBtn && geode::cocos::nodeIsVisible(m_downloadBtn)) {
+		m_downloadBtn->activate();
+	}
+}
+
+void AutoDownloadCustomSongWidget::downloadSongFinished(int id) {
+	CustomSongWidget::downloadSongFinished(id);
+	retriggerDownloadButton();
+}
+
+void AutoDownloadCustomSongWidget::downloadSFXFinished(int id) {
+	CustomSongWidget::downloadSFXFinished(id);
+	retriggerDownloadButton();
+}
+
+void AutoDownloadCustomSongWidget::updateWithMultiAssets(gd::string songList, gd::string sfxList, int bytes) {
+	CustomSongWidget::updateWithMultiAssets(songList, sfxList, bytes);
+	retriggerDownloadButton();
 }

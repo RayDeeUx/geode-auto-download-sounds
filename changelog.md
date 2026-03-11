@@ -1,6 +1,10 @@
-# v1.0.0
+# v1.0.1
 
-- First stable release! :aga:
+- Fixes issue with SFX downloading where some levels would not start downloading songs on level view
+
+## v1.0.0
+
+- First stable release! ![:aga:](assets/aga.png)
 
 ## v0.2.5
 
